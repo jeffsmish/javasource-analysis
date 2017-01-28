@@ -895,7 +895,7 @@
       <workItem from="1483597586897" duration="3014000" />
       <workItem from="1483957805321" duration="4328000" />
       <workItem from="1484529237996" duration="43505000" />
-      <workItem from="1485400773062" duration="56436000" />
+      <workItem from="1485400773062" duration="56495000" />
     </task>
     <task id="LOCAL-00001" summary="java源文件上传">
       <created>1482808624701</created>
@@ -915,7 +915,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="116105000" />
+    <option name="totallyTimeSpent" value="116164000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
