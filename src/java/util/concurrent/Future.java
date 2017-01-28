@@ -116,7 +116,7 @@ public interface Future<V> {
      * typically because it has already completed normally;
      * {@code true} otherwise
      */
-    boolean cancel(boolean mayInterruptIfRunning);
+    boolean cancel(boolean mayInterruptIfRunning); //取消
 
     /**
      * Returns {@code true} if this task was cancelled before it completed
@@ -124,7 +124,7 @@ public interface Future<V> {
      *
      * @return {@code true} if this task was cancelled before it completed
      */
-    boolean isCancelled();
+    boolean isCancelled();//取消判断
 
     /**
      * Returns {@code true} if this task completed.
@@ -135,7 +135,7 @@ public interface Future<V> {
      *
      * @return {@code true} if this task completed
      */
-    boolean isDone();
+    boolean isDone();//是否完成
 
     /**
      * Waits if necessary for the computation to complete, and then
@@ -148,7 +148,7 @@ public interface Future<V> {
      * @throws InterruptedException if the current thread was interrupted
      * while waiting
      */
-    V get() throws InterruptedException, ExecutionException;
+    V get() throws InterruptedException, ExecutionException;//获取结果
 
     /**
      * Waits if necessary for at most the given time for the computation

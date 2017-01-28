@@ -93,6 +93,17 @@ import java.util.*;
  * @see java.util.Comparator
  * @since 1.2
  */
+
+/**
+ * comparator vs comparable
+ * comparator在集合外实现了一系列排序、比较算法
+ * comparable是在集合内实现了一系列排序、比较算法
+ * comparator是利用的策略模式进行的。
+ *
+ * http://blog.csdn.net/mageshuai/article/details/3849143
+ * http://www.cnblogs.com/xujian2014/p/5215082.html
+ * @param <T>
+ */
 public interface Comparable<T> {
     /**
      * Compares this object with the specified object for order.  Returns a

@@ -44,6 +44,9 @@ import java.util.concurrent.ThreadLocalRandom;
  * extends Number so that concrete subclasses must publicly do so.
  */
 @SuppressWarnings("serial")
+//1.利用多核特性，将数据分散，提高并发性，解决伪共享问题
+//Striped64 通过一个 Cell 数组维持了一序列分解数的表示，通过 base 字段维持数的初始值，通过 cellsBusy 字段来控制 resing 和/或 创建Cell。它还提供了对数进行累加的机制。
+//http://wen866595.iteye.com/blog/2067912
 abstract class Striped64 extends Number {
     /*
      * This class maintains a lazily-initialized table of atomically
@@ -117,6 +120,8 @@ abstract class Striped64 extends Number {
      * JVM intrinsics note: It would be possible to use a release-only
      * form of CAS here, if it were provided.
      */
+    //Cell 类是 Striped64 的静态内部类。通过注解 @sun.misc.Contended 来自动实现缓存行填充，
+    // 让Java编译器和JRE运行时来决定如何填充。本质上是一个填充了的、提供了CAS更新的volatile变量。
     @sun.misc.Contended static final class Cell {
         volatile long value;
         Cell(long x) { value = x; }

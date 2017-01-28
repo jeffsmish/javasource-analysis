@@ -63,6 +63,9 @@ import sun.reflect.Reflection;
  * @author Doug Lea
  * @param <T> The type of the object holding the updatable field
  */
+
+//包装类，将非原子性的变量 包装成原子性的变量。
+//http://blog.csdn.net/xh16319/article/details/17056767
 public abstract class AtomicLongFieldUpdater<T> {
     /**
      * Creates and returns an updater for objects with the given field.

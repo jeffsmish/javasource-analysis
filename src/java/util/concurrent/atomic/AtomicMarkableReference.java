@@ -47,6 +47,7 @@ package java.util.concurrent.atomic;
  * @author Doug Lea
  * @param <V> The type of object referred to by this reference
  */
+//加入标记mark，来解决ABA问题
 public class AtomicMarkableReference<V> {
 
     private static class Pair<T> {

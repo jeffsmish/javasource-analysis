@@ -67,6 +67,8 @@ import java.io.Serializable;
  * @since 1.8
  * @author Doug Lea
  */
+//在Striped64基础上做一些判断和逻辑封装。
+//LongAdder 继承自 Striped64，它的方法只针对简单的情况：cell存在且更新无竞争，其余情况都通过 Striped64 的longAccumulate方法来完成。
 public class LongAdder extends Striped64 implements Serializable {
     private static final long serialVersionUID = 7249069246863182397L;
 

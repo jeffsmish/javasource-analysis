@@ -79,6 +79,15 @@ import java.util.function.Consumer;
  * @author Josh Bloch, Doug Lea
  * @param <E> the type of elements held in this collection
  */
+
+/**
+ * 优先级队列
+ * 内部实现是使用max-min heap实现的。
+ * 优先级队列不是线程安全的。
+ * http://java-er.com/blog/java-priority-queue/
+ * http://shmilyaw-hotmail-com.iteye.com/blog/1827136
+ * @param <E>
+ */
 public class PriorityQueue<E> extends AbstractQueue<E>
     implements java.io.Serializable {
 

@@ -206,11 +206,16 @@ public class LinkedBlockingQueue<E> extends AbstractQueue<E>
      *
      * @return the node
      */
-    private E dequeue() {
+    private E dequeue() { //dequeue 出列
         // assert takeLock.isHeldByCurrentThread();
         // assert head.item == null;
         Node<E> h = head;
         Node<E> first = h.next;
+        /**
+         * 为啥要把next指向节点本身？！是帮助了GC吗？！
+         * 如果不指向自己，节点本身的next永远有对下一个节点的引用，造成head出了队列，却无法回收。
+         * 同时将自身的next指向自己，则自身节点新成为一个自有一个节点的新的特殊队列。
+         */
         h.next = h; // help GC
         head = first;
         E x = first.item;
@@ -221,7 +226,7 @@ public class LinkedBlockingQueue<E> extends AbstractQueue<E>
     /**
      * Locks to prevent both puts and takes.
      */
-    void fullyLock() {
+    void fullyLock() {  //在对队列整体上进行的操作会用到此方法将收尾都锁住。比如获取toArray，size，contain，iterator.etc……
         putLock.lock();
         takeLock.lock();
     }
@@ -335,7 +340,7 @@ public class LinkedBlockingQueue<E> extends AbstractQueue<E>
         int c = -1;
         Node<E> node = new Node<E>(e);
         final ReentrantLock putLock = this.putLock;
-        final AtomicInteger count = this.count;
+        final AtomicInteger count = this.count; //并不是直接拿count来用。
         putLock.lockInterruptibly();
         try {
             /*
@@ -346,18 +351,18 @@ public class LinkedBlockingQueue<E> extends AbstractQueue<E>
              * signalled if it ever changes from capacity. Similarly
              * for all other uses of count in other wait guards.
              */
-            while (count.get() == capacity) {
-                notFull.await();
+            while (count.get() == capacity) { //如果等于队列的最大长度Integer.MAX_SIZE，队列将阻塞。
+                notFull.await(); //空间不足，进行阻塞
             }
-            enqueue(node);
+            enqueue(node);   //否则，加入到队列，然后count累加
             c = count.getAndIncrement();
             if (c + 1 < capacity)
-                notFull.signal();
+                notFull.signal(); //唤醒阻塞的加入节点的线程。
         } finally {
-            putLock.unlock();
+            putLock.unlock();     //释放锁。
         }
         if (c == 0)
-            signalNotEmpty();
+            signalNotEmpty(); //唤醒获取节点的线程。
     }
 
     /**
@@ -436,10 +441,10 @@ public class LinkedBlockingQueue<E> extends AbstractQueue<E>
         int c = -1;
         final AtomicInteger count = this.count;
         final ReentrantLock takeLock = this.takeLock;
-        takeLock.lockInterruptibly();
+        takeLock.lockInterruptibly(); //1.先判断线程是否已中断，然后试图获取锁。http://blog.csdn.net/woaieillen/article/details/8046876
         try {
-            while (count.get() == 0) {
-                notEmpty.await();
+            while (count.get() == 0) { //2.如果队列为空，则调用await进行阻塞。这个也就为什么称为阻塞队列的原因。
+                notEmpty.await();       //3.所有线程阻塞
             }
             x = dequeue();
             c = count.getAndDecrement();
@@ -520,7 +525,7 @@ public class LinkedBlockingQueue<E> extends AbstractQueue<E>
     /**
      * Unlinks interior Node p with predecessor trail.
      */
-    void unlink(Node<E> p, Node<E> trail) {
+    void unlink(Node<E> p, Node<E> trail) { //这个方法安全吗？
         // assert isFullyLocked();
         // p.next is not changed, to allow iterators that are
         // traversing p to maintain their weak-consistency guarantee.
@@ -528,7 +533,7 @@ public class LinkedBlockingQueue<E> extends AbstractQueue<E>
         trail.next = p.next;
         if (last == p)
             last = trail;
-        if (count.getAndDecrement() == capacity)
+        if (count.getAndDecrement() == capacity)// incrementAndGet(),decrementAndGet(),getAndIncrement()和getAndDecrement()提供了前置递增，前置递减，后递增和后递减，之所以有这些方法，是因为这些操作都不是atomic的。
             notFull.signal();
     }
 

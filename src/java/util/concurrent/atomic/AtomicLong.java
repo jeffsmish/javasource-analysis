@@ -111,7 +111,7 @@ public class AtomicLong extends Number implements java.io.Serializable {
      * @param newValue the new value
      */
     public final void set(long newValue) {
-        value = newValue;
+        value = newValue;  //value是volatile修饰的，更改后其他线程可以立即看到更新后的值，但是这个并不能保证原子性，线程非安全的。
     }
 
     /**
@@ -121,7 +121,7 @@ public class AtomicLong extends Number implements java.io.Serializable {
      * @since 1.6
      */
     public final void lazySet(long newValue) {
-        unsafe.putOrderedLong(this, valueOffset, newValue);
+        unsafe.putOrderedLong(this, valueOffset, newValue); //这个是去掉了内存storeLoad的屏蔽，更新后，其他线程可能在一小段时间内还是会读到原来的值。
     }
 
     /**

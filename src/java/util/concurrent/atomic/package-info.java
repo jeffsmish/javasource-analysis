@@ -1,4 +1,6 @@
-/*
+/**
+ *
+ * 可以看这篇文章http://blog.csdn.net/xh16319/article/details/17056767
  * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  *
  *

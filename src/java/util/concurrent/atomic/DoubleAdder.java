@@ -60,6 +60,8 @@ import java.io.Serializable;
  * @since 1.8
  * @author Doug Lea
  */
+//jdk1.8后的特性，原子性累加器。利用了cpu的特性。
+
 public class DoubleAdder extends Striped64 implements Serializable {
     private static final long serialVersionUID = 7249069246863182397L;
 
